@@ -35,7 +35,7 @@
     <div class="page">
       <!-- Navbar -->
      @include('layout.navbar')
-     @include('layout.header')
+     {{-- @include('layout.header') --}}
       <div class="page-wrapper">
         <!-- Page body -->
         <div class="page-body">
