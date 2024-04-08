@@ -101,7 +101,8 @@
                     { 
                         data: null,
                         render:function(data){
-                            return `Day(s) <b>${data.total_days ?? 0}</b>, Hour(s) <b>${data.total_hours ?? 0}</b>`
+                            return data.total_hours_minutes
+                            // return `Day(s) <b>${data.total_days ?? 0}</b>, Hour(s) <b>${data.total_hours ?? 0}</b>`
                         }
                     },
                 ],

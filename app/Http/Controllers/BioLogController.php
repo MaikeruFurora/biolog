@@ -19,8 +19,39 @@ class BioLogController extends Controller
             'employee_logs.fullname',
             DB::raw('MIN(CASE WHEN employee_logs.checklog = "Duty On" THEN TimeStampLog END) AS on_duty'),
             DB::raw('MAX(CASE WHEN employee_logs.checklog = "Duty Off" THEN TimeStampLog END) AS off_duty'),
-            DB::raw('ABS(TIMESTAMPDIFF(HOUR, MIN(CASE WHEN employee_logs.checklog = "Duty On" THEN TimeStampLog END), MAX(CASE WHEN employee_logs.checklog = "Duty Off" THEN TimeStampLog END))) AS total_hours'),
-            DB::raw('ABS(TIMESTAMPDIFF(DAY, MIN(CASE WHEN employee_logs.checklog = "Duty On" THEN TimeStampLog END), MAX(CASE WHEN employee_logs.checklog = "Duty Off" THEN TimeStampLog END))) AS total_days'),
+            DB::raw('CONCAT(
+                ABS(TIMESTAMPDIFF(DAY, MIN(CASE WHEN employee_logs.checklog = "Duty On" 
+                    THEN 
+                        DATE_FORMAT(STR_TO_DATE(TimeStampLog, "%Y-%m-%d %h:%i:%s %p"), "%Y-%m-%d %H:%i:%s")
+                    END), 
+                    MAX(CASE WHEN employee_logs.checklog = "Duty Off" 
+                    THEN 
+                    DATE_FORMAT(STR_TO_DATE(TimeStampLog, "%Y-%m-%d %h:%i:%s %p"), "%Y-%m-%d %H:%i:%s")
+                END))), " Days ",
+                MOD(ABS(TIMESTAMPDIFF(HOUR, MIN(CASE WHEN employee_logs.checklog = "Duty On" 
+                    THEN 
+                        DATE_FORMAT(STR_TO_DATE(TimeStampLog, "%Y-%m-%d %h:%i:%s %p"), "%Y-%m-%d %H:%i:%s")
+                    END), 
+                    MAX(CASE WHEN employee_logs.checklog = "Duty Off" 
+                    THEN 
+                    DATE_FORMAT(STR_TO_DATE(TimeStampLog, "%Y-%m-%d %h:%i:%s %p"), "%Y-%m-%d %H:%i:%s")
+                END))), 24), " Hours ",
+                MOD(ABS(TIMESTAMPDIFF(MINUTE, MIN(CASE WHEN employee_logs.checklog = "Duty On" 
+                    THEN 
+                        DATE_FORMAT(STR_TO_DATE(TimeStampLog, "%Y-%m-%d %h:%i:%s %p"), "%Y-%m-%d %H:%i:%s")
+                    END), 
+                    MAX(CASE WHEN employee_logs.checklog = "Duty Off" 
+                    THEN 
+                    DATE_FORMAT(STR_TO_DATE(TimeStampLog, "%Y-%m-%d %h:%i:%s %p"), "%Y-%m-%d %H:%i:%s")
+                END))), 60), " Minutes") AS total_hours_minutes'),
+            // DB::raw('ABS(TIMESTAMPDIFF(DAY, MIN(CASE WHEN employee_logs.checklog = "Duty On" 
+            //     THEN 
+            //         DATE_FORMAT(STR_TO_DATE(TimeStampLog, "%Y-%m-%d %h:%i:%s %p"), "%Y-%m-%d %H:%i:%s")
+            //     END),
+            //         MAX(CASE WHEN employee_logs.checklog = "Duty Off" 
+            //         THEN 
+            //         DATE_FORMAT(STR_TO_DATE(TimeStampLog, "%Y-%m-%d %h:%i:%s %p"), "%Y-%m-%d %H:%i:%s")
+            //     END))) AS total_days'),
             'employee_logs.name',)
             ->whereDate('TimeStampLog', '>=', $dateFrom)
             ->whereDate('TimeStampLog', '<=',  $dateTo)
