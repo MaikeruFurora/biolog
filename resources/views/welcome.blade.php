@@ -33,8 +33,9 @@
                     <tr>
                         <td>Name</td>
                         <td>Section</td>
-                        <td>Check log</td>
-                        <td>Date & time log</td>
+                        <td>Check In</td>
+                        <td>Check Out</td>
+                        <td>Duration</td>
                     </tr>
                 </thead>
             </table>
@@ -94,8 +95,15 @@
                 columns: [
                     { data: 'fullname', },
                     { data: 'name', },
-                    { data: 'checklog', },
-                    { data: 'TimeStampLog', },
+                    // { data: 'checklog', },
+                    { data: 'on_duty', },
+                    { data: 'off_duty', },
+                    { 
+                        data: null,
+                        render:function(data){
+                            return `Day(s) <b>${data.total_days ?? 0}</b>, Hour(s) <b>${data.total_hours ?? 0}</b>`
+                        }
+                    },
                 ],
             });
         });
