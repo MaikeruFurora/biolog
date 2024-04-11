@@ -12,17 +12,12 @@ class BioLogController extends Controller
         $dateFrom = $request->input('date_from');
         $dateTo = $request->input('date_to');
 
-        // Fix the date range to avoid potential SQL injection and issues with date formats
-        // $startOfDay = "{$dateFrom} ";
-        // $endOfDay = "{$dateTo} ";
-
         return DB::table('employee_logs')
             ->whereDate('TimeStampLog', '>=', $dateFrom)
             ->whereDate('TimeStampLog', '<=', $dateTo)
             ->where('name', 'like', '%' . $request->input('warehouse') . '%')
             ->get();
 
-       
 
         // return DB::table('employee_logs')->whereDate('TimeStampLog', '=', '2024-03-07')->get();
         // return $request->all();
