@@ -39,7 +39,7 @@
       <div class="page-wrapper">
         <!-- Page body -->
         <div class="page-body">
-          <div class="container-xl d-flex flex-column justify-content-center">
+          <div class="container-fluid d-flex flex-column justify-content-center">
             @yield('content')
           </div>
         </div>
