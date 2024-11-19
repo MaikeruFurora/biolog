@@ -15,56 +15,42 @@ class BioLogController extends Controller
         return DB::table('employee_logs')
             ->whereDate('TimeStampLog', '>=', $dateFrom)
             ->whereDate('TimeStampLog', '<=', $dateTo)
-            ->where('name', 'like', '%' . $request->input('warehouse') . '%')
+            ->where('name',  $request->input('warehouse'))
             ->get();
 
+    }
 
-        // return DB::table('employee_logs')->whereDate('TimeStampLog', '=', '2024-03-07')->get();
-        // return $request->all();
-        // return DB::table('employee_logs')->get();
-        // $draw = $request->input('draw');
-        // $start = $request->input('start');
-        // $length = $request->input('length');
-        // $column = $request->input('columns');
-        // $order = $request->input('order');
-        // $search = $request->input('search');
-        // $search = $search['value']; // for free text search
+    public function employee(Request $request){
+        return DB::table('employees')
+        ->select(['fullname','enrolid'])
+        ->join('branch', 'branch.srnum', '=', 'employees.srnum')
+        ->where('branch.name', $request->input('warehouse'))
+        ->orderBy('fullname', 'asc')
+        ->get();
+    }
+
+    public function employeeStore(Request $request){
         
-        // $recordsTotal = DB::table('employee_logs')->count();
-        // $recordsFiltered = 0;
-        // $data = array();
+        $validatedData = $request->validate([
+            'fullname' => 'required|string|max:255',
+            'enrolid' => 'required|integer',
+            'warehouse' => 'required',
+        ]);
 
-      
+        $branch = DB::table('branch')
+            ->where('name', $validatedData['warehouse'])
+            ->first();
 
-        //     // $query
-        //     // ->orWhereBetween('TimeStampLog', [$request->input('date_from').' 00:00:00',$request->input('date_to').' 00:00:00'])
-        //     // ->orWhere('name', 'like', '%' . $request->input('warehouse') . '%');
+        if (!$branch) {
+            return response()->json(['error' => 'Branch not found'], 404);
+        }
 
+        $employeeId = DB::table('employees')->insertGetId([
+            'fullname' => $validatedData['fullname'],
+            'enrolid' => $validatedData['enrolid'],
+            'srnum' => $branch->srnum,
+        ]);
 
-        //     // $query
-        //             // ->whereBetween('TimeStampLog', [$request->input('date_from'), $request->input('date_to')])
-        //             // ->orwhereDate('TimeStampLog', '=', $request->input('date_from'))
-        //             // ->orWhere('name', 'like', '%' . $request->input('warehouse') . '%');
-        
-        // $recordsFiltered = $query->count();
-        // $employees = $query->offset($start)->limit($length)->get();
-
-        // if (count($employees) > 0) {
-        //     foreach ($employees as $employee) {
-        //         $data[] = array(
-        //             'fullname' =>$employee->fullname,
-        //             'name' =>$employee->name,
-        //             'checklog' =>$employee->checklog,
-        //             'TimeStampLog' =>$employee->TimeStampLog,
-        //         );
-        //     }
-        // }
-        // return response()->json([
-        //     'draw' => $draw,
-        //     'recordsTotal' => $recordsTotal,
-        //     'recordsFiltered' => $recordsFiltered,
-        //     'data' => $data,
-        // ]);
-    
+        return response()->json(['success' => 'Employee stored successfully', 'employee_id' => $employeeId], 201);
     }
 }

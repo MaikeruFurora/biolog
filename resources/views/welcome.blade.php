@@ -1,34 +1,67 @@
 @extends('layout.app')
-@section('content')
+@section('content') 
     <div class="card">
         <div class="card-body px-3">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="input-icon">
-                        <span class="input-icon-addon"><!-- Download SVG icon from http://tabler-icons.io/i/calendar -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg>
-                        </span>
-                        <input type="date" class="form-control" placeholder="Select a date" id="datepicker-icon-prepend" value="{{ date("Y-m-d") }}" name="date_from"/>
-                      </div>
+            <div class="d-flex justify-between align-items-center">
+                <!-- Left Section: Inputs -->
+                <div class="col-lg-6 mb-4">
+                    <div class="row g-3">
+                        <!-- Date From Input -->
+                        <div class="col-lg-4">
+                            <div class="input-icon">
+                                <span class="input-icon-addon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                                        <path d="M16 3v4" />
+                                        <path d="M8 3v4" />
+                                        <path d="M4 11h16" />
+                                        <path d="M11 15h1" />
+                                        <path d="M12 15v3" />
+                                    </svg>
+                                </span>
+                                <input type="date" id="date_from" class="form-control" name="date_from" value="{{ date('Y-m-d') }}" />
+                            </div>
+                        </div>
+                        <!-- Date To Input -->
+                        <div class="col-lg-4">
+                            <div class="input-icon">
+                                <span class="input-icon-addon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                                        <path d="M16 3v4" />
+                                        <path d="M8 3v4" />
+                                        <path d="M4 11h16" />
+                                        <path d="M11 15h1" />
+                                        <path d="M12 15v3" />
+                                    </svg>
+                                </span>
+                                <input type="date" id="date_to" class="form-control" name="date_to" value="{{ date('Y-m-d') }}" />
+                            </div>
+                        </div>
+                        <!-- Warehouse Select -->
+                        <div class="col-lg-4">
+                            <select id="warehouse" name="warehouse" class="form-select">
+                                @foreach ($branches as $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="input-icon">
-                        <span class="input-icon-addon"><!-- Download SVG icon from http://tabler-icons.io/i/calendar -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg>
-                        </span>
-                        <input type="date" class="form-control" placeholder="Select a date" id="datepicker-icon-prepend" value="{{ date("Y-m-d") }}" name="date_to"/>
-                      </div>
-                </div>
-                <div class="col-lg-6">
-                    <select name="warehouse" id="" class="form-select">
-                        @foreach ($branches as $item)
-                            <option value="{{ $item->name }}">{{ $item->name }}</option>
-                        @endforeach
-                    </select>
+            
+                <!-- Right Section: Text -->
+                <div class="col-lg-2 mb-4 ms-auto text-end">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-primary" id="btnEmployee" >
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg>
+                            Employee
+                          </button>
+                    </div>
                 </div>
             </div>
-            
-            <table id="logRecordTable" class="table table-bordered " data-url="{{ route('bio.log') }}" style="width: 100%">
+            <table id="logRecordTable" class="table table-bordered" data-url="{{ route('bio.log') }}" style="width: 100%;font-size: 13px">
                 <thead>
                     <tr>
                         <td>Name</td>
@@ -40,6 +73,7 @@
             </table>
         </div>
     </div>
+@include('component.employee-list') 
 @endsection
 @section('script')
 <script src="{{ asset('dist/libs/datatable/js/bootstrap.bundle.min.js') }}"></script>
@@ -53,37 +87,34 @@
 <script src="{{ asset('dist/libs/datatable/js/responsive.bootstrap5.js') }}"></script>
 <!-- Libs JS -->
 <script src="{{ asset('dist/libs/list.js/dist/list.min.js') }}"></script>
-<script>
-    //  document.addEventListener("DOMContentLoaded", function () {
-    // 	window.Litepicker && (new Litepicker({
-    // 		element: document.getElementById('datepicker-icon-prepend'),
-    // 		buttonText: {
-    // 			previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-    //                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-    //                             nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-    //                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-    // 		},
-    // 	}));
+<script> 
 
-        
-    // });
-    
-    let logRecordTable;
+const overlay = document.getElementById('overlay');
 
-    $('#logRecordTable').DataTable()
+// Show and hide the overlay on window load
+window.onload = () => {
+    showOverlay();
+    setTimeout(hideOverlay, 1000);
+};
 
-    const lodRecord = (date_from,date_to,warehouse)=>{
-        $.ajax({
+// Utility functions for overlay visibility
+const showOverlay = () => (overlay.style.display = 'block');
+const hideOverlay = () => (overlay.style.display = 'none');
+
+// Initialize DataTables globally 
+$('#logRecordTable').DataTable() 
+$('#employeeTable').DataTable()
+// Helper function to initialize and reload a DataTable
+const loadTableData = (tableSelector, params, url, columns) => {
+    showOverlay();
+    $.ajax({
         type: "GET",
-        url: $('#logRecordTable').attr("data-url"),
-            data: {
-                date_from,
-                date_to,
-                warehouse
-            },
-        }).done(function(data){
+        url: url,
+        data: params,
+    })
+        .done((data) => {
             
-            logRecordTable = $("#logRecordTable").DataTable({
+            $(tableSelector).DataTable({
                 bDestroy:true,
                 layout: {
                     topStart: {
@@ -91,57 +122,114 @@
                         }
                     },
                 data: data,
-                columns: [
-                    { data: 'fullname', },
-                    { data: 'name', },
-                    { data: 'checklog', },
-                    { data: 'TimeStampLog', },
-                ],
+                columns: columns,
             });
+ 
+            hideOverlay();
+        })
+        .fail((jqXHR) => {
+            hideOverlay();
+            console.error(jqXHR.responseText);
         });
-    }
-   
-    lodRecord($("input[name=date_from]").val(),$("input[name=date_to]").val(),$("select[name=warehouse]").val())
+};
 
-    $("input[name=date_from],input[name=date_to],select[name=warehouse]").on("change", function () {
-        lodRecord($("input[name=date_from]").val(),$("input[name=date_to]").val(),$("select[name=warehouse]").val())
+// Load initial log records
+const logRecordParams = {
+    date_from: $("input[name=date_from]").val(),
+    date_to: $("input[name=date_to]").val(),
+    warehouse: $("select[name=warehouse]").val(),
+};
+
+loadTableData(
+    '#logRecordTable',
+    logRecordParams,
+    $('#logRecordTable').data('url'),
+    [
+        { data: 'fullname' },
+        { data: 'name' },
+        { data: 'checklog' },
+        { data: 'TimeStampLog' },
+    ]
+);
+
+// Reload log records on filter change
+$("input[name=date_from], input[name=date_to], select[name=warehouse]").on("change", () => {
+    const updatedParams = {
+        date_from: $("input[name=date_from]").val(),
+        date_to: $("input[name=date_to]").val(),
+        warehouse: $("select[name=warehouse]").val(),
+    };
+
+    loadTableData(
+        '#logRecordTable',
+        updatedParams,
+        $('#logRecordTable').data('url'),
+        [
+            { data: 'fullname' },
+            { data: 'name' },
+            { data: 'checklog' },
+            { data: 'TimeStampLog' },
+        ]
+    );
+});
+
+
+const loadEmployee = () => {
+    const employeeParams = {
+        warehouse: $("#showModalEmployee #warehouse").val(),
+    };
+
+    loadTableData(
+        '#employeeTable',
+        employeeParams,
+        $('#employeeTable').data('url'),
+        [
+            { data: 'fullname' },
+            { data: 'enrolid' },
+        ]
+    );
+}
+
+// Load employee data when button is clicked
+$("#btnEmployee").on('click', () => {
+    $("#showModalEmployee").modal('show');
+    loadEmployee();
+});
+
+$("#showModalEmployee #warehouse").on('change', () => { loadEmployee(); });
+
+$("#showModalEmployee form").on('submit', (e) => {
+    e.preventDefault();
+
+    $.ajax({
+        type: "POST",
+        url: $("#showModalEmployee form").attr('action'),
+        data: $("#showModalEmployee form").serialize(),
+        beforeSend: () => {
+            showOverlay();
+        }, 
+       
+    }).done( function(data) {
+            hideOverlay();
+            $("#showModalEmployee form")[0].reset();
+            loadEmployee(); 
+    }).fail(function(jqXHR) {
+        hideOverlay();
+        const response = jqXHR.responseJSON;
+        if (response && response.errors) {
+            let errorMessages = "";
+            for (const field in response.errors) {
+                if (response.errors.hasOwnProperty(field)) {
+                    errorMessages += response.errors[field].join(" ") + "\n";
+                }
+            }
+            alert(errorMessages.trim());
+        } else {
+            alert("An unexpected error occurred.");
+        } 
     });
+});
 
-    // logRecordTable = $("#logRecordTable").DataTable({
-    //     processing: true,
-    //     serverSide: true,
-    //     responsive: true,
-      
-    //     ajax: {
-    //         url: $('#logRecordTable').attr("data-url"),
-    //         data: function (d) {
-    //             d.date_from = $("input[name=date_from]").val();
-    //             d.date_to = $("input[name=date_to]").val();
-    //             d.warehouse = $("select[name=warehouse]").val();
-    //         },
-    //     },
-    //     layout: {
-    //         topStart: {
-    //             buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-    //         }
-    //     },
-    //     columns: [
-    //         { data: 'fullname', },
-    //         { data: 'name', },
-    //         { data: 'checklog', },
-    //         { data: 'TimeStampLog', },
-    //     ],
-    // });
-
-
-        
-
-
-        // $("#datepicker-icon-prepend").on("change", function() {
-        //     // `event.date` is the new date
-        //     // `event.oldDate` is the previous date
-        //    alert($("input[name=date_from]").val());
-        //     logRecordTable.draw();
-        // });
+ 
 </script>
 @endsection

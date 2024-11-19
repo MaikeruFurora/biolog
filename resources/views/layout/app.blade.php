@@ -28,14 +28,48 @@
       body {
       	font-feature-settings: "cv03", "cv04", "cv11";
       }
+
+      #overlay {
+        background: #ffffff;
+        color: black;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 5000;
+        top: 0;
+        left: 0;
+        float: left;
+        text-align: center;
+        padding-top: 25%;
+        opacity: .60;
+        display: none; /* Initial state */
+      }
+
+      .spinner {
+        margin: 0 auto;
+        height: 44px;
+        width: 44px;
+        animation: rotate 0.8s infinite linear;
+        border: 2px solid firebrick;
+        border-right-color: transparent;
+        border-radius: 50%;
+      }
+      @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+      }
     </style>
+    
   </head>
   <body >
-    {{-- <script src="./dist/js/demo-theme.min.js?1684106062"></script> --}}
+    @include('component.loader')  
     <div class="page">
       <!-- Navbar -->
-     @include('layout.navbar')
-     {{-- @include('layout.header') --}}
+     @include('layout.navbar') 
       <div class="page-wrapper">
         <!-- Page body -->
         <div class="page-body">
@@ -43,7 +77,6 @@
             @yield('content')
           </div>
         </div>
-       
       </div>
     </div>
     <!-- Libs JS -->
