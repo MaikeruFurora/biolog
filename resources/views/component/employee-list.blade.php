@@ -7,10 +7,11 @@
       </div>
       <div class="modal-body">
         <form action="{{ route('bio.employee.store') }}" method="post" autocomplete="off">@csrf
+          <input type="text" name="id" id="id" value="" class="d-none"/>
           <div class="col-lg-12 mb-4">
             <div class="row g-2">
                 <!-- Date From Input -->
-                <div class="col-lg-4">  
+                <div class="col-lg-3">  
                       <input type="text" id="fullname" class="form-control" name="fullname" placeholder="(Ex:Surename,Given name)"/> 
                   </div>
                   <!-- Date To Input -->
@@ -25,13 +26,18 @@
                         @endforeach
                     </select>
                   </div>
-                  <div class="col-lg-2">
+                  <div class="col-lg-3">
                     <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    <button type="reset" class="btn btn-seconday btn-block">Clear</button>
                 </div>
             </div>
         </div>
         </form>
-          <table id="employeeTable" class="table table-bordered" data-url="{{ route('bio.employee') }}" style="width: 100%;font-size: 13px">
+          <table id="employeeTable" class="table table-bordered table-hover" 
+              data-url="{{ route('bio.employee') }}"
+              data-delete="{{route('bio.employee.destroy')}}"
+              style="width: 100%;font-size: 13px"
+            >
             <thead>
                 <tr>
                     <td>Name</td>

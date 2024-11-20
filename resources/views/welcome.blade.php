@@ -211,7 +211,9 @@ $("#showModalEmployee form").on('submit', (e) => {
        
     }).done( function(data) {
             hideOverlay();
-            $("#showModalEmployee form")[0].reset();
+            $("#showModalEmployee form input[name=id]").val('');
+            $("#showModalEmployee form input[name=fullname]").val('');
+            $("#showModalEmployee form input[name=enrolid]").val('');
             loadEmployee(); 
     }).fail(function(jqXHR) {
         hideOverlay();
@@ -230,6 +232,45 @@ $("#showModalEmployee form").on('submit', (e) => {
     });
 });
 
+
+// Function to populate fields when row is clicked in datatable
+$("#employeeTable tbody").on('dblclick', 'tr', function () {
+    var data = $("#employeeTable").DataTable().row(this).data();
+    $("#showModalEmployee #id").val(data.id);
+    $("#showModalEmployee #fullname").val(data.fullname);
+    $("#showModalEmployee #enrolid").val(data.enrolid);
+});
+
+
+// Function to show alert on holding a row for 5 seconds
+$("#employeeTable tbody").on('mousedown', 'tr', function () {
+    const row = $(this);
+    var data = $("#employeeTable").DataTable().row(this).data();
+    let urlDelete = $("#employeeTable").data('delete');
+    let _token = $('input[name="_token"]').val()
+    const timeoutId = setTimeout(() => {
+        if (confirm("Do you want to remove this row?")) {
+            $.ajax({
+                url: urlDelete,
+                type: "POST",
+                data: {
+                    _token,
+                    id:data.id
+                },
+                success: function (data) {
+                    loadEmployee();
+                },
+                error: function (data) {
+                    alert("An unexpected error occurred.");
+                }
+            });
+        }
+    }, 3000);
+
+    row.on('mouseup mouseleave', function () {
+        clearTimeout(timeoutId);
+    });
+});
  
 </script>
 @endsection

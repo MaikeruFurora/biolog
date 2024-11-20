@@ -24,3 +24,4 @@ Route::get('/', function () {
 Route::get('bio/list', [BioLogController::class, 'list'])->name('bio.log');
 Route::get('bio/employee', [BioLogController::class, 'employee'])->name('bio.employee');
 Route::post('bio/employee/store', [BioLogController::class, 'employeeStore'])->name('bio.employee.store');
+Route::post('bio/employee/delete', [BioLogController::class, 'employeeDelete'])->name('bio.employee.destroy');
