@@ -11,7 +11,7 @@
             <div class="row g-2">
                 <!-- Date From Input -->
                 <div class="col-lg-4">  
-                      <input type="text" id="fullname" class="form-control" name="fullname" placeholder="(Ex:Surename,Givename)"/> 
+                      <input type="text" id="fullname" class="form-control" name="fullname" placeholder="(Ex:Surename,Given name)"/> 
                   </div>
                   <!-- Date To Input -->
                   <div class="col-lg-3">  

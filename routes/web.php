@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $branches = Branch::get('name');
+    $branches = Branch::orderBy('name')->get();
     return view('welcome',compact('branches'));
 });
 
